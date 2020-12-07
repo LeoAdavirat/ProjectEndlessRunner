@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     private Vector3 pV;                            //playerVelocity
     CharacterController controller;
+    Vector3 EndLastMap;
     private bool GroundedPlayer;
     public float speed;
     public float gravity;
@@ -24,21 +25,18 @@ public class Player : MonoBehaviour
         pV.y -= gravity;
         pV.z = speed;
         pV.x = Input.GetAxisRaw("Horizontal") * speed / 2;
-        if (Input.GetButtonUp("Horizontal"))
-        {
-            pV.x = 0;
-        }
         if (Input.GetButtonDown("Jump") && GroundedPlayer)
         {
             pV.y = speed/2;
         }
         Vector3 movin = (pV.x * transform.right + pV.y * transform.up + pV.z * transform.forward) * Time.deltaTime;
         controller.Move(movin);
-        if (gameObject.transform.position.z >= 25)
-        {
-            Resetmap = true;
-            gameObject.transform.position = new Vector3(0f, 2.5f, 0f);
-        }
+        EndLastMap = gameObject.transform.Find("Map").GetComponent<MapChanger>().EndLastMap;
+//        if (gameObject.transform.position.z > EndLastMap.z)
+//        {
+//            Resetmap = true;
+//            gameObject.transform.position = new Vector3(0f, 2.5f, 0f);
+//        }
     }
     IEnumerator Startsss()
     {
@@ -46,7 +44,6 @@ public class Player : MonoBehaviour
         Debug.Log("Game Started.");
         gravity = gravity / 2;
         yield return new WaitUntil(() => !GroundedPlayer && gameObject.transform.position.y <= 0);
-        Random.InitState(losem.Length);
-        Debug.Log(losem[(int)Random.value]);
+        Debug.Log(losem[(int)Random.Range(0, losem.Length)]);
     }
 }

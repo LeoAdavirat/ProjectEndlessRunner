@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Cam : MonoBehaviour
 {
+    public CameraClearFlags clearFlags;
+    void Start()
+    {
+        clearFlags = CameraClearFlags.Nothing;
+    }
     void Update()
     {
-        gameObject.transform.parent.position -= new Vector3(0, -3f, 7f);
     }
 }
